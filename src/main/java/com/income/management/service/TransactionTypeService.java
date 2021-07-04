@@ -20,7 +20,7 @@ public class TransactionTypeService {
     }
 
     public List<TransactionType> findAll() {
-        List<TransactionType> res = null;
+        List<TransactionType> res;
         try {
             res = repository.findAll();
         } catch (GenericTransactionException e) {

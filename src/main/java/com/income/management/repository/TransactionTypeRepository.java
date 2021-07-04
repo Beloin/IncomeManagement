@@ -2,6 +2,7 @@ package com.income.management.repository;
 
 import com.income.management.conf.DatabaseConfig;
 import com.income.management.exception.GenericTransactionException;
+import com.income.management.exception.SQLConnectionException;
 import com.income.management.model.TransactionType;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +53,14 @@ public class TransactionTypeRepository implements ITransactionTypeRepository {
     @Override
     public TransactionType save(TransactionType transactionType) throws GenericTransactionException {
         String query = "INSERT INTO TransactionType (name) VALUES (?)";
+
+        try {
+            var con = this.databaseConfig.getConnection();
+
+        } catch (SQLConnectionException e) {
+            throw new GenericTransactionException(e.getMessage(), e);
+        }
+
 
         return transactionType;
     }
