@@ -20,7 +20,7 @@ public class DatabaseConfig {
         Connection con;
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost/IncomeManagement?"
-                    + "user=root&password=password");
+                    + "user=root&password=******");
         } catch (SQLException throwable) {
             throw new SQLConnectionException(throwable.getMessage(), throwable);
         }

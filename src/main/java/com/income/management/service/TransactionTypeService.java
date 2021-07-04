@@ -30,4 +30,25 @@ public class TransactionTypeService {
 
         return res;
     }
+
+    public TransactionType createTransType(String name) {
+        var trans = new TransactionType(name);
+
+        try {
+            return this.repository.save(trans);
+        } catch (GenericTransactionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void deleteTransactionType(long id) throws GenericTransactionException {
+        TransactionType trans = null;
+        trans = this.repository.find(id);
+        this.repository.delete(trans);
+    }
+
+    public TransactionType find(long id) throws GenericTransactionException {
+        return this.repository.find(id);
+    }
 }

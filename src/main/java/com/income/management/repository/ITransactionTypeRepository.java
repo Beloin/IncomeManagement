@@ -14,6 +14,5 @@ public interface ITransactionTypeRepository {
 
     public boolean update(TransactionType transactionType) throws GenericTransactionException;
 
-    public boolean delete(TransactionType transactionType) throws GenericTransactionException;
-
+    public void delete(TransactionType transactionType) throws GenericTransactionException;
 }
