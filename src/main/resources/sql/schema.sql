@@ -1,14 +1,6 @@
 CREATE DATABASE IF NOT EXISTS IncomeManagement;
 USE IncomeManagement;
 
-CREATE TABLE IF NOT EXISTS TransactionType
-(
-    id       int          NOT NULL AUTO_INCREMENT,
-    typeName VARCHAR(255) NOT NULL,
-    createAt DATE         NOT NULL,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS UserAccount
 (
     id              int NOT NULL AUTO_INCREMENT,
@@ -35,19 +27,18 @@ CREATE TABLE IF NOT EXISTS SubCategory
 
 CREATE TABLE IF NOT EXISTS Transaction
 (
-    id               int  NOT NULL AUTO_INCREMENT,
+    id               int         NOT NULL AUTO_INCREMENT,
     transactionName  VARCHAR(255),
-    transDate        DATE NOT NULL,
+    transDate        DATE        NOT NULL,
 
-    typeId           int  NOT NULL,
+    trans_value      FLOAT(9, 2) NOT NULL,
 
     userAccountInId  int,
     userAccountOutId int,
 
-    categoryId       int  NOT NULL,
+    categoryId       int         NOT NULL,
 
     PRIMARY KEY (id),
-    FOREIGN KEY (typeId) REFERENCES TransactionType (id),
     FOREIGN KEY (userAccountInId) REFERENCES UserAccount (id),
     FOREIGN KEY (userAccountOutId) REFERENCES UserAccount (id),
     FOREIGN KEY (categoryId) REFERENCES Category (id),

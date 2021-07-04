@@ -1,6 +1,8 @@
 package com.income.management.conf;
 
 import com.income.management.exception.SQLConnectionException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +12,10 @@ import java.sql.SQLException;
 
 @Configuration
 public class DatabaseConfig {
+
+    @Value( "${jdbc.url}" )
+    private String jdbcUrl;
+
     /**
      * Get SQL Connection.
      *
@@ -19,13 +25,10 @@ public class DatabaseConfig {
     public Connection getConnection() throws SQLConnectionException {
         Connection con;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost/IncomeManagement?"
-                    + "user=root&password=******");
+            con = DriverManager.getConnection(jdbcUrl);
         } catch (SQLException throwable) {
             throw new SQLConnectionException(throwable.getMessage(), throwable);
         }
-
         return con;
     }
-
 }
