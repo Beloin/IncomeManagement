@@ -31,4 +31,8 @@ public class DatabaseConfig {
         }
         return con;
     }
+
+    public void noReturnQuery(){
+
+    }
 }

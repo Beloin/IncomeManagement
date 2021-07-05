@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Transaction
     transactionName  VARCHAR(255),
     transDate        DATE        NOT NULL,
 
-    trans_value      FLOAT(9, 2) NOT NULL,
+    transValue      FLOAT(9, 2) NOT NULL,
 
     userAccountInId  int,
     userAccountOutId int,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Transaction
 CREATE VIEW ACCOUNT_DESPESAS as
 SELECT ua.id              as ACCID,
        ua.userAccountName AS ACCNAME,
-       tr.trans_value     AS VALOR_SAIDA
+       tr.transValue     AS VALOR_SAIDA
 FROM UserAccount ua
          LEFT JOIN Transaction tr
                    on tr.userAccountOutId = ua.id;
@@ -50,7 +50,7 @@ FROM UserAccount ua
 create view ACCOUNT_ENTRADAS as
 SELECT ua.id              as ACCID,
        ua.userAccountName AS ACCNAME,
-       tr.trans_value     AS VALOR_ENTRADA
+       tr.transValue     AS VALOR_ENTRADA
 FROM UserAccount ua
          LEFT JOIN Transaction tr
                    on tr.userAccountInId = ua.id;
