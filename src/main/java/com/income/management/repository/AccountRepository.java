@@ -32,11 +32,28 @@ public class AccountRepository {
         }
     }
 
+    public void changeAccountName(long id, String newName) throws GenericTransactionException {
+        String query = String.format("UPDATE UserAccount SET userAccountName = %s WHERE id = %d", newName, id);
+
+        try {
+            var conn = this.dbConfig.getConnection();
+            var stm = conn.createStatement();
+            var ok = stm.execute(query);
+
+            stm.close();
+            conn.close();
+
+            if (!ok) throw new GenericTransactionException("Not Updated");
+        } catch (Exception e) {
+            throw new GenericTransactionException(e.getMessage(), e);
+        }
+    }
+
     public List<AccountWithValue> findAccounts() throws GenericTransactionException {
         String query = "SELECT ab.ACCID, ab.ACCNAME, SUM(ab2.VALOR_ENTRADA) - SUM(ab.VALOR_SAIDA) AS TOTAL " +
                 "FROM ACCOUNT_DESPESAS ab " +
                 "left join ACCOUNT_ENTRADAS ab2 " +
-                "on ab.ACCID = ab2.ACCID GROUP BY ab.ACCID";
+                "on ab.ACCID = ab2.ACCID GROUP BY ab.ACCID ORDER BY ab.ACCNAME";
 
         List<AccountWithValue> accounts = new ArrayList<>();
         try {

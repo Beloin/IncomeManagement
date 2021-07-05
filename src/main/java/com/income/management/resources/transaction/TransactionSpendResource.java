@@ -18,8 +18,8 @@ public class TransactionSpendResource {
     }
 
     @PostMapping("/transactions/spents")
-    public GenericTransaction createSpent(@Valid @RequestBody TransactionDTO spent) {
-        return this.transactionService.createSpent(spent);
+    public void createSpent(@Valid @RequestBody TransactionDTO spent) {
+        this.transactionService.createSpent(spent);
     }
 
     @GetMapping("/transactions/spents/{id}")
@@ -35,7 +35,6 @@ public class TransactionSpendResource {
     @DeleteMapping("/transactions/spents/{id}")
     public void deleteSpent(@PathVariable(value = "id") long id) {
         this.transactionService.deleteSpent(id);
-        return;
     }
 
 }

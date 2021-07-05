@@ -19,8 +19,8 @@ public class TransactionRevenueResource {
     }
 
     @PostMapping("/transactions/revenues")
-    public GenericTransaction createRevenues(@Valid @RequestBody TransactionDTO revenue){
-        return this.transactionService.createRevenue(revenue);
+    public void createRevenues(@Valid @RequestBody TransactionDTO revenue){
+        this.transactionService.createRevenue(revenue);
     }
 
     @GetMapping("/transactions/revenues/{id}")
@@ -36,7 +36,6 @@ public class TransactionRevenueResource {
     @DeleteMapping("/transactions/revenues/{id}")
     public void deleteRevenue(@PathVariable(value = "id") long id){
         this.transactionService.deleteRevenue(id);
-        return;
     }
 
 }

@@ -13,8 +13,10 @@ import java.sql.SQLException;
 @Configuration
 public class DatabaseConfig {
 
-    @Value( "${jdbc.url}" )
+    @Value("${jdbc.url}")
     private String jdbcUrl;
+
+    private Connection sqlConnection;
 
     /**
      * Get SQL Connection.
@@ -32,7 +34,13 @@ public class DatabaseConfig {
         return con;
     }
 
-    public void noReturnQuery(){
-
+    @Bean
+    protected void setConnection() throws SQLConnectionException {
+        try {
+            this.sqlConnection = DriverManager.getConnection(jdbcUrl);
+        } catch (SQLException throwable) {
+            throw new SQLConnectionException(throwable.getMessage(), throwable);
+        }
     }
+
 }

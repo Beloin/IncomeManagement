@@ -1,6 +1,7 @@
 package com.income.management.resources.transaction;
 
 import com.income.management.model.GenericTransaction;
+import com.income.management.model.TransferTransaction;
 import com.income.management.resources.transaction.dto.TransactionDTO;
 import com.income.management.resources.transaction.dto.TransferDTO;
 import com.income.management.service.transaction.TransactionService;
@@ -19,24 +20,23 @@ public class TransactionTransferResource {
     }
 
     @PostMapping("/transactions/transfers")
-    public GenericTransaction createTransfer(@Valid @RequestBody TransferDTO transfer) {
-        return this.transactionService.createTransfer(transfer);
+    public void createTransfer(@Valid @RequestBody TransferDTO transfer) {
+        this.transactionService.createTransfer(transfer);
     }
 
     @GetMapping("/transactions/transfers/{id}")
-    public GenericTransaction getTransfer(@PathVariable(value = "id") long id) {
+    public TransferTransaction getTransfer(@PathVariable(value = "id") long id) {
         return this.transactionService.findTransfer(id);
     }
 
     @GetMapping("/transactions/transfers")
-    public List<GenericTransaction> getAllTransfers() {
+    public List<TransferTransaction> getAllTransfers() {
         return this.transactionService.findAllTransfers();
     }
 
     @DeleteMapping("/transactions/transfers/{id}")
     public void deleteTransfer(@PathVariable(value = "id") long id) {
         this.transactionService.deleteTransfer(id);
-        return;
     }
 
 }

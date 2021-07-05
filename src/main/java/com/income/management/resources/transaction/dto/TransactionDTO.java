@@ -4,7 +4,15 @@ public class TransactionDTO {
     private long account;
     private float value;
     private long category;
+    private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public long getAccount() {
         return account;
