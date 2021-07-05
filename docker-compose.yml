@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  spring-app:
+    build: ./
+    ports:
+    - '8080:8080'
+    - '8085:8080'
+
+#  adminer:
+#    image: adminer
+#    ports:
+#      - '8020:8020'
+
+  income-db:
+    image: mysql:5.7
+    restart: always
+    ports:
+    - '3307:3306'
+
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+#      MYSQL_ROOT_PASSWORD: "sena2001"
+#      MYSQL_DATABASE: "IncomeManagement"
+    volumes:
+#      - database-income-app:/var/lib/mysql
+      - /home/beloin/mysql-docker:/var/lib/mysql
+      # - ./src/main/resources/sql/schema.sql:/docker-entrypoint-initdb.d/0_init.sql
+
+volumes:
+  database-income-app:
+
+networks:
+  default:
+    name: backend-network-income
+

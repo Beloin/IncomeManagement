@@ -35,7 +35,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    protected void setConnection() throws SQLConnectionException {
+    void setConnection() throws SQLConnectionException {
         try {
             this.sqlConnection = DriverManager.getConnection(jdbcUrl);
         } catch (SQLException throwable) {
