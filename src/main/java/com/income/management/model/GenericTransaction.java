@@ -1,14 +1,18 @@
 package com.income.management.model;
 
+import java.sql.Date;
+
 public class GenericTransaction {
-    private long id;
+    private final long id;
     private long account;
     private float value;
+    private Date date;
 
-    public GenericTransaction(long id, long account, float value) {
+    public GenericTransaction(long id, long account, float value, Date date) {
         this.id = id;
         this.account = account;
         this.value = value;
+        this.date = date;
     }
 
     public long getId() {
@@ -29,5 +33,13 @@ public class GenericTransaction {
 
     public void setValue(float value) {
         this.value = value;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

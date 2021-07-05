@@ -1,5 +1,7 @@
 package com.income.management.service.transaction;
 
+import com.income.management.exception.GenericTransactionException;
+import com.income.management.model.GenericTransaction;
 import com.income.management.model.Transaction;
 import com.income.management.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,13 @@ public class TransactionService {
         this.transactionRepo = transactionRepo;
     }
 
-    public List<Transaction> findAllSpends() {
-        return this.transactionRepo.findAllSpents();
+    public List<GenericTransaction> findAllSpends() {
+        try {
+            return this.transactionRepo.findAllSpents();
+        } catch (GenericTransactionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

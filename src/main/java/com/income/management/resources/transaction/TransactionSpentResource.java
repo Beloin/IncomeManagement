@@ -1,5 +1,6 @@
 package com.income.management.resources.transaction;
 
+import com.income.management.model.GenericTransaction;
 import com.income.management.model.Transaction;
 import com.income.management.service.transaction.TransactionService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ public class TransactionSpentResource {
     }
 
     @GetMapping("/transactions/spents")
-    public List<Transaction> getSpent() {
+    public List<GenericTransaction> getSpent() {
         return this.transactionService.findAllSpends();
     }
 }

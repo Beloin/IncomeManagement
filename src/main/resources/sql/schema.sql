@@ -16,15 +16,6 @@ CREATE TABLE IF NOT EXISTS Category
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS SubCategory
-(
-    id              int NOT NULL AUTO_INCREMENT,
-    subCategoryName VARCHAR(255),
-    categoryId      int NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (categoryId) REFERENCES Category (id)
-);
-
 CREATE TABLE IF NOT EXISTS Transaction
 (
     id               int         NOT NULL AUTO_INCREMENT,
@@ -46,3 +37,20 @@ CREATE TABLE IF NOT EXISTS Transaction
     # No mínimo uma conta.
     CONSTRAINT MinimunAcc CHECK (userAccountInId IS NOT NULL or userAccountOutId IS NOT NULL)
 );
+
+CREATE VIEW ACCOUNT_DESPESAS as
+SELECT ua.id              as ACCID,
+       ua.userAccountName AS ACCNAME,
+       tr.trans_value     AS VALOR_SAIDA
+FROM UserAccount ua
+         LEFT JOIN Transaction tr
+                   on tr.userAccountOutId = ua.id;
+
+
+create view ACCOUNT_ENTRADAS as
+SELECT ua.id              as ACCID,
+       ua.userAccountName AS ACCNAME,
+       tr.trans_value     AS VALOR_ENTRADA
+FROM UserAccount ua
+         LEFT JOIN Transaction tr
+                   on tr.userAccountInId = ua.id;
