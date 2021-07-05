@@ -20,7 +20,7 @@ services:
 
     command: --default-authentication-plugin=mysql_native_password
     environment:
-#      MYSQL_ROOT_PASSWORD: "sena2001"
+      MYSQL_ROOT_PASSWORD: "123312"
 #      MYSQL_DATABASE: "IncomeManagement"
     volumes:
 #      - database-income-app:/var/lib/mysql
