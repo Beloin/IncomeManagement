@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController()
 public class AccountResource {
 
@@ -36,7 +37,7 @@ public class AccountResource {
 
 
     @DeleteMapping("/account/{id}")
-    public void deleteAccount(@PathVariable(value = "id") long id) {
+    public void deleteAccount(@PathVariable(value = "id") long id) throws GenericTransactionException {
         this.accountService.deleteAccount(id);
     }
 

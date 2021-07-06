@@ -57,7 +57,27 @@ public class AccountRepository {
         try {
             var conn = this.dbConfig.getConnection();
             var stm = conn.createStatement();
-            var rs = stm.executeQuery(query);
+            stm.execute("CREATE OR REPLACE VIEW ACCOUNT_DESPESAS as " +
+                    "SELECT ua.id as ACCID," +
+                    " ua.userAccountName AS ACCNAME," +
+                    " tr.transValue      AS VALOR_SAIDA " +
+                    "FROM UserAccount AS ua" +
+                    "         LEFT JOIN Transaction tr" +
+                    "                   on tr.userAccountOutId = ua.id;");
+            var stm3 = conn.createStatement();
+            String query2 = " CREATE OR REPLACE VIEW ACCOUNT_ENTRADAS as " +
+                    " SELECT ua.id              as ACCID, " +
+                    "       ua.userAccountName AS ACCNAME," +
+                    "       tr.transValue      AS VALOR_ENTRADA " +
+                    "FROM UserAccount AS ua" +
+                    "         LEFT JOIN Transaction tr" +
+                    "                   on tr.userAccountInId = ua.id";
+            stm3.execute(query2);
+            stm.close();
+            stm3.close();
+
+            var stm2 = conn.createStatement();
+            var rs = stm2.executeQuery(query);
 
             while (rs.next()) accounts.add(
                     new AccountWithValue(
@@ -68,7 +88,7 @@ public class AccountRepository {
             );
 
             rs.close();
-            stm.close();
+            stm2.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }

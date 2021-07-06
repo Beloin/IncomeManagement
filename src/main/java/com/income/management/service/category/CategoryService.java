@@ -16,29 +16,15 @@ public class CategoryService {
         this.catRepo = catRepo;
     }
 
-    public void createCategory(String name) {
-        try {
-            this.catRepo.createCategory(name);
-        } catch (GenericTransactionException e) {
-            e.printStackTrace();
-        }
+    public void createCategory(String name) throws GenericTransactionException {
+        this.catRepo.createCategory(name);
     }
 
-    public List<Category> findAllCategories() {
-        try {
-            return this.catRepo.findCategories();
-        } catch (GenericTransactionException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public List<Category> findAllCategories() throws GenericTransactionException {
+        return this.catRepo.findCategories();
     }
 
-    public void deleteCategory(long id) {
-        try {
-            this.catRepo.deleteCategory(id);
-        } catch (GenericTransactionException e) {
-            e.printStackTrace();
-        }
+    public void deleteCategory(long id) throws GenericTransactionException {
+        this.catRepo.deleteCategory(id);
     }
 }

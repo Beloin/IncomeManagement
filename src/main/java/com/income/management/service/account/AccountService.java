@@ -21,24 +21,16 @@ public class AccountService {
         this.accountRepo.createAccount(name);
     }
 
-    public void changeAccountName(long id, String newName) {
-        try {
-            this.accountRepo.changeAccountName(id, newName);
-        } catch (GenericTransactionException e) {
-            e.printStackTrace();
-        }
+    public void changeAccountName(long id, String newName) throws GenericTransactionException {
+        this.accountRepo.changeAccountName(id, newName);
     }
 
     public List<AccountWithValue> findAccounts() throws GenericTransactionException {
         return this.accountRepo.findAccounts();
     }
 
-    public void deleteAccount(long id) {
-        try {
-            this.accountRepo.deleteAccount(id);
-        } catch (GenericTransactionException e) {
-            e.printStackTrace();
-        }
+    public void deleteAccount(long id) throws GenericTransactionException {
+        this.accountRepo.deleteAccount(id);
     }
 
 }
