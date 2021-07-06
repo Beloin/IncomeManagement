@@ -48,7 +48,7 @@ public class AccountRepository {
     }
 
     public List<AccountWithValue> findAccounts() throws GenericTransactionException {
-        String query = "SELECT ab.ACCID, ab.ACCNAME, SUM(ab2.VALOR_ENTRADA) - SUM(ab.VALOR_SAIDA) AS TOTAL " +
+        String query = "SELECT ab.ACCID, ab.ACCNAME, COALESCE(SUM(ab2.VALOR_ENTRADA), 0) - COALESCE(SUM(ab.VALOR_SAIDA), 0) AS TOTAL " +
                 "FROM ACCOUNT_DESPESAS ab " +
                 "left join ACCOUNT_ENTRADAS ab2 " +
                 "on ab.ACCID = ab2.ACCID GROUP BY ab.ACCID ORDER BY ab.ACCNAME";
