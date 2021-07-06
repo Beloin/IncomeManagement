@@ -25,7 +25,7 @@ public class TransactionRepository {
 
     public List<GenericTransaction> findAllSpents() throws GenericTransactionException {
         String query = ("SELECT tr.id, tr.transValue, tr.transDate, tr.userAccountOutId " +
-                "FROM Transaction as tr where tr.userAccountInId = NULL");
+                "FROM Transaction as tr where tr.userAccountInId IS NULL");
         List<GenericTransaction> trans = new ArrayList<>();
 
         try {
@@ -47,12 +47,16 @@ public class TransactionRepository {
         return trans;
     }
 
-    public void createSpentTransaction(String name, float transValue, long accountOut, long category)
+    public void createSpentTransaction(String name,
+                                       float transValue,
+                                       long accountOut,
+                                       long category
+    )
             throws GenericTransactionException {
         String query = String.format("INSERT INTO Transaction " +
-                        "(transactionName, transDate, trans_value, userAccountInId, userAccountOutId, categoryId) " +
-                        "values (%s, %s, %a, %d, %d, %d)",
-                name, new Date(new java.util.Date().getTime()).toString(), transValue, null, accountOut, category);
+                        "(transactionName, transDate, transValue, userAccountOutId, categoryId) " +
+                        "values (\"%s\", \"%s\", %f, %d, %d)",
+                name, new Date(new java.util.Date().getTime()).toString(), transValue, accountOut, category);
 
         creationQuery(query);
     }
@@ -131,9 +135,9 @@ public class TransactionRepository {
     public void createRevenueTransaction(String name, float transValue, long accountIn, long category)
             throws GenericTransactionException {
         String query = String.format("INSERT INTO Transaction " +
-                        "(transactionName, transDate, trans_value, userAccountInId, userAccountOutId, categoryId) " +
-                        "values (%s, %s, %a, %d, %d, %d)",
-                name, new Date(new java.util.Date().getTime()).toString(), transValue, accountIn, null, category);
+                        "(transactionName, transDate, transValue, userAccountInId, categoryId) " +
+                        "values (\"%s\", \"%s\", %f, %d, %d)",
+                name, new Date(new java.util.Date().getTime()).toString(), transValue, accountIn, category);
 
         creationQuery(query);
     }
@@ -232,7 +236,11 @@ public class TransactionRepository {
         return trans;
     }
 
-    public void createTransferTransaction(String name, float value, long accountIn, long accountOut, long category)
+    public void createTransferTransaction(String name,
+                                          float value,
+                                          long accountIn,
+                                          long accountOut,
+                                          long category)
             throws GenericTransactionException {
         String query = String.format("INSERT INTO Transaction " +
                         "(transactionName, transDate, trans_value, userAccountInId, userAccountOutId, categoryId) " +
