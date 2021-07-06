@@ -97,7 +97,7 @@ public class AccountRepository {
     }
 
     public void deleteAccount(long id) throws GenericTransactionException {
-        String query = String.format("DELETE FROM UserAccount AS uc WHERE uc.id = %d", id);
+        String query = String.format("DELETE FROM UserAccount WHERE id = %d", id);
 
         try {
             var conn = this.dbConfig.getConnection();
