@@ -27,9 +27,7 @@ public class CategoryRepository {
             var ok = stm.execute(query);
 
             stm.close();
-            conn.close();
-
-            if (!ok) throw new GenericTransactionException("Not created");
+            if (ok) throw new GenericTransactionException("Not created");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -51,7 +49,6 @@ public class CategoryRepository {
 
             rs.close();
             stm.close();
-            conn.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -60,14 +57,14 @@ public class CategoryRepository {
     }
 
     public void deleteCategory(long id) throws GenericTransactionException {
-        String query = String.format("DELETE FROM Category AS uc WHERE uc.id = %d", id);
+        String query = String.format("DELETE FROM CategoryResource AS uc WHERE uc.id = %d", id);
 
         try {
             var conn = this.dbConfig.getConnection();
             var stm = conn.createStatement();
             var rs = stm.execute(query);
 
-            if (!rs) throw new GenericTransactionException("No deleted.");
+            if (rs) throw new GenericTransactionException("No deleted.");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }

@@ -2,7 +2,6 @@ package com.income.management.conf;
 
 import com.income.management.exception.SQLConnectionException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,13 +24,15 @@ public class DatabaseConfig {
      * @throws SQLConnectionException ex
      */
     public Connection getConnection() throws SQLConnectionException {
-        Connection con;
-        try {
-            con = DriverManager.getConnection(jdbcUrl);
-        } catch (SQLException throwable) {
-            throw new SQLConnectionException(throwable.getMessage(), throwable);
-        }
-        return con;
+//        Connection con;
+//        try {
+//            con = DriverManager.getConnection(jdbcUrl);
+//        } catch (SQLException throwable) {
+//            throw new SQLConnectionException(throwable.getMessage(), throwable);
+//        }
+//        return con;
+
+        return sqlConnection;
     }
 
     @Bean
@@ -42,5 +43,4 @@ public class DatabaseConfig {
             throw new SQLConnectionException(throwable.getMessage(), throwable);
         }
     }
-
 }

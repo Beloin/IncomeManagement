@@ -40,7 +40,6 @@ public class TransactionRepository {
 
             rs.close();
             stm.close();
-            con.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -71,9 +70,7 @@ public class TransactionRepository {
             var ok = stm.execute(query);
 
             stm.close();
-            conn.close();
-
-            if (!ok) throw new GenericTransactionException("Not created");
+            if (ok) throw new GenericTransactionException("Not created");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -97,7 +94,6 @@ public class TransactionRepository {
 
             rs.close();
             stm.close();
-            con.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -124,7 +120,6 @@ public class TransactionRepository {
 
             rs.close();
             stm.close();
-            con.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -154,9 +149,7 @@ public class TransactionRepository {
             var ok = stm.execute(query);
 
             stm.close();
-            conn.close();
-
-            if (!ok) throw new GenericTransactionException("Not created");
+            if (ok) throw new GenericTransactionException("Not created");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -176,7 +169,6 @@ public class TransactionRepository {
 
             rsSet.close();
             stm.close();
-            con.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -205,7 +197,6 @@ public class TransactionRepository {
 
             rs.close();
             stm.close();
-            con.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -234,7 +225,6 @@ public class TransactionRepository {
 
             rs.close();
             stm.close();
-            con.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }

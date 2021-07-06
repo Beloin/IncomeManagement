@@ -2,6 +2,7 @@ package com.income.management.resources.account;
 
 import com.income.management.exception.GenericTransactionException;
 import com.income.management.model.account.AccountWithValue;
+import com.income.management.resources.account.dot.AccountDTO;
 import com.income.management.service.account.AccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +19,24 @@ public class AccountResource {
         this.accountService = accountService;
     }
 
-    @PostMapping("/account")
-    public boolean createAccount(@Valid @RequestBody )  {
-        return this.accountService.createAccount("name");
+    @PostMapping("/accounts")
+    public void createAccount(@Valid @RequestBody AccountDTO acc) throws GenericTransactionException {
+        this.accountService.createAccount(acc.getName());
     }
 
-    @PutMapping("/account")
-    public void changeAccountName(@Valid @RequestBody){
-        return this.accountService.changeAccountName();
+    @PutMapping("/accounts/{id}")
+    public void changeAccountName(@Valid @RequestBody AccountDTO acc, @PathVariable(value = "id") long id) {
+        this.accountService.changeAccountName(id, acc.getName());
     }
 
-    @GetMapping("/account")
-    public List<AccountWithValue> getAllAccounts() {
+    @GetMapping("/accounts")
+    public List<AccountWithValue> getAllAccounts() throws GenericTransactionException {
         return this.accountService.findAccounts();
     }
 
 
     @DeleteMapping("/account/{id}")
-    public void deleteAccount(@PathVariable(value = "id") long id){
+    public void deleteAccount(@PathVariable(value = "id") long id) {
         this.accountService.deleteAccount(id);
     }
 

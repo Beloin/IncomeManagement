@@ -4,10 +4,12 @@ import com.income.management.conf.DatabaseConfig;
 import com.income.management.exception.GenericTransactionException;
 import com.income.management.model.account.Account;
 import com.income.management.model.account.AccountWithValue;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class AccountRepository {
 
     private final DatabaseConfig dbConfig;
@@ -16,7 +18,7 @@ public class AccountRepository {
         this.dbConfig = dbConfig;
     }
 
-    public boolean createAccount(String name) throws GenericTransactionException {
+    public void createAccount(String name) throws GenericTransactionException {
         String query = String.format("INSERT INTO UserAccount (userAccountName) values (\"%s\")", name);
         try {
             var conn = this.dbConfig.getConnection();
@@ -24,9 +26,7 @@ public class AccountRepository {
             var ok = stm.execute(query);
 
             stm.close();
-            conn.close();
-
-            return ok;
+            if (ok) throw new GenericTransactionException("Not created");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -41,9 +41,7 @@ public class AccountRepository {
             var ok = stm.execute(query);
 
             stm.close();
-            conn.close();
-
-            if (!ok) throw new GenericTransactionException("Not Updated");
+            if (ok) throw new GenericTransactionException("Not Updated");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -71,7 +69,6 @@ public class AccountRepository {
 
             rs.close();
             stm.close();
-            conn.close();
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -87,7 +84,7 @@ public class AccountRepository {
             var stm = conn.createStatement();
             var rs = stm.execute(query);
 
-            if (!rs) throw new GenericTransactionException("No deleted.");
+            if (rs) throw new GenericTransactionException("No deleted.");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
