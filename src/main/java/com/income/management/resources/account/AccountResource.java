@@ -26,7 +26,7 @@ public class AccountResource {
     }
 
     @PutMapping("/accounts/{id}")
-    public void changeAccountName(@Valid @RequestBody AccountDTO acc, @PathVariable(value = "id") long id) {
+    public void changeAccountName(@Valid @RequestBody AccountDTO acc, @PathVariable(value = "id") long id) throws GenericTransactionException {
         this.accountService.changeAccountName(id, acc.getName());
     }
 
