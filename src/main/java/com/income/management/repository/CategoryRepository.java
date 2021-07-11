@@ -57,7 +57,7 @@ public class CategoryRepository {
     }
 
     public void deleteCategory(long id) throws GenericTransactionException {
-        String query = String.format("DELETE FROM CategoryOw WHERE id = %d", id);
+        String query = String.format("DELETE FROM Category WHERE id = %d", id);
 
         try {
             var conn = this.dbConfig.getConnection();
