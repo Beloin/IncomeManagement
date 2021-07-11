@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS UserAccount
     id              int NOT NULL AUTO_INCREMENT,
     userAccountName VARCHAR(255),
     PRIMARY KEY (id)
-);
+    );
 
 
 CREATE TABLE IF NOT EXISTS Category
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Category
     id           int NOT NULL AUTO_INCREMENT,
     categoryName VARCHAR(255),
     PRIMARY KEY (id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS Transaction
 (
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Transaction
     transactionName  VARCHAR(255),
     transDate        DATE        NOT NULL,
 
-    transValue      FLOAT(9, 2) NOT NULL,
+    transValue       FLOAT(9, 2) NOT NULL,
 
     userAccountInId  int,
     userAccountOutId int,
@@ -36,21 +36,21 @@ CREATE TABLE IF NOT EXISTS Transaction
 
     # No mínimo uma conta.
     CONSTRAINT MinimunAcc CHECK (userAccountInId IS NOT NULL or userAccountOutId IS NOT NULL)
-);
+    );
 
-CREATE VIEW ACCOUNT_DESPESAS as
+CREATE OR REPLACE VIEW ACCOUNT_DESPESAS as
 SELECT ua.id              as ACCID,
        ua.userAccountName AS ACCNAME,
-       tr.transValue     AS VALOR_SAIDA
+       tr.transValue      AS VALOR_SAIDA
 FROM UserAccount ua
          LEFT JOIN Transaction tr
                    on tr.userAccountOutId = ua.id;
 
 
-create view ACCOUNT_ENTRADAS as
+CREATE OR REPLACE VIEW ACCOUNT_ENTRADAS as
 SELECT ua.id              as ACCID,
        ua.userAccountName AS ACCNAME,
-       tr.transValue     AS VALOR_ENTRADA
+       tr.transValue      AS VALOR_ENTRADA
 FROM UserAccount ua
          LEFT JOIN Transaction tr
                    on tr.userAccountInId = ua.id;
