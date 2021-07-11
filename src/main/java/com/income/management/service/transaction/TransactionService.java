@@ -55,6 +55,9 @@ public class TransactionService {
 
     //-----Transfer -----
     public void createTransfer(TransferDTO transfer) throws GenericTransactionException {
+        if (transfer.getAccount_in() == transfer.getAccount_out())
+            throw new GenericTransactionException("Cannot create transfer to the same account");
+
         this.transactionRepo.createTransferTransaction(
                 transfer.getName(),
                 transfer.getValue(),

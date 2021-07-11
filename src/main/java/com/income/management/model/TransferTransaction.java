@@ -3,18 +3,24 @@ package com.income.management.model;
 import java.sql.Date;
 
 public class TransferTransaction {
+    private String name;
     private final long id;
     private long accountIn;
     private long accountOut;
     private float value;
     private Date date;
 
-    public TransferTransaction(long id, long accountIn, long accountOut, float value, Date date) {
+    public TransferTransaction(String name, long id, long accountIn, long accountOut, float value, Date date) {
+        this.name = name;
         this.id = id;
         this.accountIn = accountIn;
         this.accountOut = accountOut;
         this.value = value;
         this.date = date;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public long getId() {

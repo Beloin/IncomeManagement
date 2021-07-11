@@ -9,7 +9,7 @@ import java.sql.Date;
 @EqualsAndHashCode
 @ToString
 public class Transaction {
-    private long id;
+    final private long id;
     private Date transDate;
 
     @Nullable

@@ -48,10 +48,9 @@ public class AccountRepository {
     }
 
     public List<AccountWithValue> findAccounts() throws GenericTransactionException {
-        String query = "SELECT ab.ACCID, ab.ACCNAME, SUM(ab2.VALOR_ENTRADA) - SUM(ab.VALOR_SAIDA) AS TOTAL " +
-                "FROM ACCOUNT_DESPESAS ab " +
-                "left join ACCOUNT_ENTRADAS ab2 " +
-                "on ab.ACCID = ab2.ACCID GROUP BY ab.ACCID ORDER BY ab.ACCNAME";
+        String totalQuery = "SELECT q1.ACCID, q1.ACCNAME, (RECEITAS - DESPESAS) AS TOTAL" +
+                " FROM (SELECT ad1.ACCNAME, ad1.ACCID, COALESCE(sum(ad1.VALOR_ENTRADA), 0) AS RECEITAS FROM ACCOUNT_ENTRADAS AS ad1 group by ACCID) as q1 LEFT JOIN " +
+                "(SELECT ad.ACCNAME, ad.ACCID, COALESCE(sum(ad.VALOR_SAIDA), 0) AS DESPESAS FROM ACCOUNT_DESPESAS AS ad group by ACCID) as q2 ON q1.ACCID = q2.ACCID;";
 
         List<AccountWithValue> accounts = new ArrayList<>();
         try {
@@ -77,15 +76,17 @@ public class AccountRepository {
             stm3.close();
 
             var stm2 = conn.createStatement();
-            var rs = stm2.executeQuery(query);
+            var rs = stm2.executeQuery(totalQuery);
 
-            while (rs.next()) accounts.add(
-                    new AccountWithValue(
-                            rs.getLong("ACCID"),
-                            rs.getString("ACCNAME"),
-                            rs.getFloat("TOTAL")
-                    )
-            );
+            while (rs.next()) {
+                accounts.add(
+                        new AccountWithValue(
+                                rs.getLong("ACCID"),
+                                rs.getString("ACCNAME"),
+                                rs.getFloat("TOTAL")
+                        )
+                );
+            }
 
             rs.close();
             stm2.close();
@@ -97,7 +98,7 @@ public class AccountRepository {
     }
 
     public void deleteAccount(long id) throws GenericTransactionException {
-        String query = String.format("DELETE FROM UserAccount AS uc WHERE uc.id = %d", id);
+        String query = String.format("DELETE FROM UserAccount WHERE id = %d", id);
 
         try {
             var conn = this.dbConfig.getConnection();

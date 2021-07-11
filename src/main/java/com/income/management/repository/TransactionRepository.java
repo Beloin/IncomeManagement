@@ -67,14 +67,14 @@ public class TransactionRepository {
     }
 
     public void deleteTransaction(long id) throws GenericTransactionException {
-        String query = String.format("DELETE FROM Transaction AS tr WHERE tr.id = %d", id);
+        String query = String.format("DELETE FROM Transaction WHERE id = %d", id);
         try {
             var conn = this.dbConfig.getConnection();
             var stm = conn.createStatement();
-            var ok = stm.execute(query);
+            var notOk = stm.execute(query);
 
             stm.close();
-            if (ok) throw new GenericTransactionException("Not created");
+            if (notOk) throw new GenericTransactionException("Not created");
         } catch (Exception e) {
             throw new GenericTransactionException(e.getMessage(), e);
         }
@@ -109,7 +109,7 @@ public class TransactionRepository {
 
     public List<GenericTransaction> findAllRevenues() throws GenericTransactionException {
         String query = ("SELECT tr.id, tr.transValue, tr.transDate, tr.userAccountInId " +
-                "FROM Transaction as tr where tr.userAccountOutId = NULL");
+                "FROM Transaction as tr where tr.userAccountOutId IS NULL");
         List<GenericTransaction> trans = new ArrayList<>();
 
         try {
@@ -181,8 +181,8 @@ public class TransactionRepository {
     }
 
     public TransferTransaction findTransfer(long id) throws GenericTransactionException {
-        String query = String.format("SELECT tr.id, tr.transValue, tr.transDate, tr.userAccountInId " +
-                "FROM Transaction as tr where tr.userAccountOutId IS NOT NULL AND tr.userAccountInId IS NOT NULL AN tr.id = %d", id);
+        String query = String.format("SELECT tr.transactionName, tr.id, tr.transValue, tr.transDate, tr.userAccountInId " +
+                "FROM Transaction as tr where tr.userAccountOutId IS NOT NULL AND tr.userAccountInId IS NOT NULL AND tr.id = %d", id);
 
         TransferTransaction trans = null;
 
@@ -192,6 +192,7 @@ public class TransactionRepository {
             var rs = stm.executeQuery(query);
 
             while (rs.next()) trans = new TransferTransaction(
+                    rs.getString("transactionName"),
                     rs.getLong("id"),
                     rs.getLong("userAccountInId"),
                     rs.getLong("userAccountInId"),
@@ -209,7 +210,7 @@ public class TransactionRepository {
     }
 
     public List<TransferTransaction> findAllTransfer() throws GenericTransactionException {
-        String query = "SELECT tr.id, tr.transValue, tr.transDate, tr.userAccountInId, tr.userAccountOutId " +
+        String query = "SELECT tr.id, tr.transactionName, tr.transValue, tr.transDate, tr.userAccountInId, tr.userAccountOutId " +
                 "FROM Transaction as tr where tr.userAccountOutId IS NOT NULL AND tr.userAccountInId IS NOT NULL";
 
         List<TransferTransaction> trans = new ArrayList<>();
@@ -219,7 +220,8 @@ public class TransactionRepository {
             var stm = con.createStatement();
             var rs = stm.executeQuery(query);
 
-            while (rs.next())  trans.add(new TransferTransaction(
+            while (rs.next()) trans.add(new TransferTransaction(
+                    rs.getString("transactionName"),
                     rs.getLong("id"),
                     rs.getLong("userAccountInId"),
                     rs.getLong("userAccountInId"),
@@ -243,8 +245,8 @@ public class TransactionRepository {
                                           long category)
             throws GenericTransactionException {
         String query = String.format("INSERT INTO Transaction " +
-                        "(transactionName, transDate, trans_value, userAccountInId, userAccountOutId, categoryId) " +
-                        "values (%s, %s, %a, %d, %d, %d)",
+                        "(transactionName, transDate, transValue, userAccountInId, userAccountOutId, categoryId) " +
+                        "values (\"%s\", \"%s\", %f, %d, %d, %d)",
                 name, new Date(new java.util.Date().getTime()).toString(), value, accountIn, accountOut, category);
 
         creationQuery(query);
