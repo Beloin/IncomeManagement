@@ -41,4 +41,9 @@ public class AccountResource {
         this.accountService.deleteAccount(id);
     }
 
+    @GetMapping("/accounts/{id}")
+    public AccountWithValue findAccount(@PathVariable(value = "id") long id) throws GenericTransactionException {
+        return this.accountService.findAccountById(id);
+    }
+
 }

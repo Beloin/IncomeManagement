@@ -5,7 +5,6 @@ import com.income.management.model.account.AccountWithValue;
 import com.income.management.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,8 +32,8 @@ public class AccountService {
         this.accountRepo.deleteAccount(id);
     }
 
-    public void findAccountById(long id) throws GenericTransactionException {
-        this.accountRepo.findAccount(id);
+    public AccountWithValue findAccountById(long id) throws GenericTransactionException {
+        return this.accountRepo.findAccount(id);
     }
 
 }
