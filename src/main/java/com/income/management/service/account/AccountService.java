@@ -33,4 +33,8 @@ public class AccountService {
         this.accountRepo.deleteAccount(id);
     }
 
+    public void findAccountById(long id) throws GenericTransactionException {
+        this.accountRepo.findAccount(id);
+    }
+
 }

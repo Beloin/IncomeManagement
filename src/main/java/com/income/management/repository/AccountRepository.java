@@ -110,4 +110,16 @@ public class AccountRepository {
             throw new GenericTransactionException(e.getMessage(), e);
         }
     }
+
+    public AccountWithValue findAccount(long id) throws GenericTransactionException {
+        List<AccountWithValue> acc = this.findAccounts();
+        AccountWithValue accValue = null;
+
+        for (AccountWithValue cAcc : acc) {
+            if (cAcc.getId() == id)
+                accValue = cAcc;
+        }
+
+        return accValue;
+    }
 }

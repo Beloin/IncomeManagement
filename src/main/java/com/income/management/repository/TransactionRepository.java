@@ -224,7 +224,7 @@ public class TransactionRepository {
                     rs.getString("transactionName"),
                     rs.getLong("id"),
                     rs.getLong("userAccountInId"),
-                    rs.getLong("userAccountInId"),
+                    rs.getLong("userAccountOutId"),
                     rs.getFloat("transValue"),
                     rs.getDate("transDate")
             ));
